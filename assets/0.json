@@ -1,0 +1,24 @@
+{
+  "name": "Welcome Family Pioneer",
+  "symbol": "WFP",
+  "description": "Un souvenir pour les pionniers de notre communaute. Ce NFT est offert aux premiers utilisateurs qui ont reclaim le loyer de leurs ATA sur notre plateforme.",
+  "image": "https://gateway.irys.xyz/HLdm6V37WXWm9b9v5w9PQdKtVryy1thMiZZS57FSf1p1",
+  "attributes": [
+    {
+      "trait_type": "Evenement",
+      "value": "Premier Claim ATA"
+    }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://gateway.irys.xyz/HLdm6V37WXWm9b9v5w9PQdKtVryy1thMiZZS57FSf1p1",
+        "type": "image/png"
+      }
+    ]
+  },
+  "collection": {
+    "name": "Welcome Family Collection",
+    "family": "Welcome Family"
+  }
+}
