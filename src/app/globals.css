@@ -1,0 +1,41 @@
+:root {
+  color-scheme: dark;
+  --background-base: #1b1f2b;
+  --text-primary: #f6f8ff;
+  --noise: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.04), transparent 35%) 0 0 / 140px 140px,
+    radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.03), transparent 40%) 0 0 / 200px 200px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background: var(--background-base);
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: var(--noise);
+  mix-blend-mode: screen;
+  z-index: -1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
