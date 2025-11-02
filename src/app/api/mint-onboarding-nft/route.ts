@@ -92,7 +92,7 @@ async function ensureNoDuplicateMint(
   }
 
   const { data, error } = await supabase
-    .from<SupabaseMintRow>("nft_mints")
+    .from("nft_mints")
     .select("*")
     .eq("user_wallet", wallet)
     .order("created_at", { ascending: false })

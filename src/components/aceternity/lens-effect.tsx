@@ -37,7 +37,7 @@ export function LensEffect({ children, className }: LensEffectProps) {
     () => ({
       "--lens-x": `${coords.x}%`,
       "--lens-y": `${coords.y}%`,
-    }),
+    } as any),
     [coords.x, coords.y],
   );
 

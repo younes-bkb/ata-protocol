@@ -503,7 +503,7 @@ export default function Home() {
     initial: { opacity: 0, y: 24 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true, margin: "-80px" },
-    transition: { duration: 0.6, ease: "easeOut" },
+    transition: { duration: 0.6, ease: "easeOut" as const },
   };
 
   return (
@@ -601,7 +601,7 @@ export default function Home() {
 
             <div className="flex items-stretch justify-center">
               <div className="relative flex w-full flex-col items-center gap-6 overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/60 p-8 shadow-[0_28px_80px_rgba(4,6,24,0.55)]">
-                <GoogleGeminiEffect className="pointer-events-none absolute inset-0 opacity-60" />
+                <GoogleGeminiEffect className="pointer-events-none absolute inset-0 opacity-60"><div/></GoogleGeminiEffect>
                 <div className="relative z-10 rounded-3xl bg-slate-950/80 p-6 ring-1 ring-white/10">
                   <Image
                     src="/mascotteATA.png"

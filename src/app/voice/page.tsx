@@ -138,7 +138,7 @@ export default function VoicePage() {
             token={token}
             data-lk-theme="default"
             onDisconnected={handleLeave}
-            connectOptions={{ audio: true, video: false }}
+            audio={true}
             video={false}
           >
             <RoomAudioRenderer />
@@ -161,7 +161,7 @@ function AudioOnlyConference() {
       <div className={styles.voiceWrapper}>
         <div className={styles.participantArea}>
           <GridLayout tracks={tracks}>
-            {(trackRef) => <ParticipantTile trackRef={trackRef} displayName position="bottom" />}
+            {((trackRef: any) => <ParticipantTile trackRef={trackRef} />) as any}
           </GridLayout>
         </div>
         <div className={styles.chatPanel}>
@@ -173,11 +173,8 @@ function AudioOnlyConference() {
             camera: false,
             screenShare: true,
             chat: true,
-            leave: true,
-            fullscreen: false,
-            participants: false,
-            roomSettings: false,
-          }}
+                                          leave: true,
+                                          settings: false,          }}
         />
       </div>
     </LayoutContextProvider>

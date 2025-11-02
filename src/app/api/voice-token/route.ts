@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
-import { Metadata, PROGRAM_ID as METADATA_PROGRAM_ID } from "@metaplex-foundation/mpl-token-metadata";
+import { Metaplex, guestIdentity } from "@metaplex-foundation/js";
 import nacl from "tweetnacl";
 import { AccessToken } from "livekit-server-sdk";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
@@ -69,6 +69,7 @@ async function walletOwnsNft(wallet: PublicKey): Promise<boolean> {
   try {
     const collectionMint = new PublicKey(COLLECTION_MINT);
     const connection = new Connection(RPC_ENDPOINT, "confirmed");
+    const metaplex = Metaplex.make(connection).use(guestIdentity());
     const tokenAccounts = await connection.getParsedTokenAccountsByOwner(wallet, {
       programId: TOKEN_PROGRAM_ID,
     });
@@ -84,14 +85,10 @@ async function walletOwnsNft(wallet: PublicKey): Promise<boolean> {
       }
 
       const mint = new PublicKey(info.mint);
-      const [metadataPda] = PublicKey.findProgramAddressSync(
-        [Buffer.from("metadata"), METADATA_PROGRAM_ID.toBuffer(), mint.toBuffer()],
-        METADATA_PROGRAM_ID,
-      );
 
       try {
-        const metadata = await Metadata.fromAccountAddress(connection, metadataPda);
-        if (metadata.collection?.verified && metadata.collection.key === collectionMint.toBase58()) {
+        const metadata = await metaplex.nfts().findByMint({ mintAddress: mint });
+        if (metadata.collection?.verified && metadata.collection.address.toBase58() === collectionMint.toBase58()) {
           return true;
         }
       } catch {
