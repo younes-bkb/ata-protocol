@@ -1,0 +1,159 @@
+.root {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: var(--pointer-events, none);
+  overflow: hidden;
+}
+
+.grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 24), var(--cell-size, 56px));
+  grid-template-rows: repeat(var(--rows, 8), var(--cell-size, 56px));
+  gap: clamp(12px, 1.4vw, 20px);
+  transform: perspective(1200px) rotateX(55deg) translateY(-4%);
+  opacity: 0.55;
+  filter: drop-shadow(0 36px 120px rgba(5, 10, 32, 0.6));
+  transition: opacity 0.4s ease;
+}
+
+.root:hover .grid {
+  opacity: 0.72;
+}
+
+.cell {
+  width: var(--cell-size, 56px);
+  height: var(--cell-size, 56px);
+  border-radius: clamp(12px, 3vw, 22px);
+  background: linear-gradient(140deg, rgba(16, 23, 42, 0.88), rgba(10, 14, 32, 0.62));
+  border: 1px solid rgba(102, 135, 255, 0.14);
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  transition:
+    border-color 0.35s ease,
+    transform 0.35s ease,
+    opacity 0.35s ease;
+  opacity: 0.68;
+}
+
+.cell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(153, 69, 255, 0.45), transparent 70%);
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.cell::after {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  border-radius: inherit;
+  border: 1px solid rgba(141, 176, 255, 0.16);
+  box-shadow: 0 0 24px rgba(96, 135, 255, 0.18);
+  opacity: 0.2;
+  transition: opacity 0.35s ease;
+}
+
+.cellInteractive {
+  cursor: pointer;
+}
+
+.cellInteractive:hover {
+  border-color: rgba(175, 206, 255, 0.45);
+  opacity: 0.92;
+  transform: translateY(-2px);
+}
+
+.cellInteractive:hover::after {
+  opacity: 0.45;
+}
+
+.cellRipple {
+  animation: rippleCell var(--duration, 820ms) ease-out var(--delay, 0ms) 1 forwards;
+}
+
+.cellRipple::before {
+  animation: rippleGlow var(--duration, 820ms) ease-out var(--delay, 0ms) 1 forwards;
+}
+
+.cellRipple::after {
+  animation: rippleRing var(--duration, 820ms) ease-out var(--delay, 0ms) 1 forwards;
+}
+
+.glow {
+  position: absolute;
+  inset: -40% -20% auto -20%;
+  height: 60%;
+  background: radial-gradient(circle at 50% 75%, rgba(120, 160, 255, 0.18), transparent 70%);
+  filter: blur(80px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@keyframes rippleCell {
+  0% {
+    transform: scale3d(0.95, 0.95, 1);
+    opacity: 0.45;
+  }
+  40% {
+    transform: scale3d(1.05, 1.05, 1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+    opacity: 0.68;
+  }
+}
+
+@keyframes rippleGlow {
+  0% {
+    opacity: 0.12;
+    transform: scale(0.4);
+  }
+  50% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+@keyframes rippleRing {
+  0% {
+    opacity: 0.18;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    transform: perspective(1100px) rotateX(52deg) translateY(-6%);
+    gap: clamp(10px, 3vw, 18px);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    transform: perspective(900px) rotateX(48deg) translateY(-4%) scale(0.92);
+    gap: clamp(8px, 4vw, 14px);
+  }
+
+  .cell {
+    border-radius: clamp(10px, 4vw, 18px);
+  }
+}
+

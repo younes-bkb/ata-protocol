@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import "./globals.css";
 import WalletProviders from "./providers/WalletProviders";
+import { cn } from "@/lib/utils";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,9 +27,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <WalletProviders>{children}</WalletProviders>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        suppressHydrationWarning
+        className={cn(
+          "min-h-screen bg-background font-sans text-foreground antialiased",
+          geistSans.variable,
+          geistMono.variable,
+        )}
+      >
+        <WalletProviders>
+          <div className="relative flex min-h-screen flex-col">{children}</div>
+        </WalletProviders>
       </body>
     </html>
   );

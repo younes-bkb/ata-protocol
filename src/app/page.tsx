@@ -1,13 +1,23 @@
 "use client";
 
-import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  FormEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { createCloseAccountInstruction } from "@solana/spl-token";
 import { PublicKey, Transaction } from "@solana/web3.js";
-import styles from "./page.module.css";
+import { BackgroundRippleEffect } from "@/components/ui/background-ripple-effect";
+import { GoogleGeminiEffect } from "@/components/aceternity/google-gemini-effect";
+import { LampEffect } from "@/components/aceternity/lamp-effect";
+import { LensEffect } from "@/components/aceternity/lens-effect";
 
 type RequestState = "idle" | "loading" | "error" | "success";
 
@@ -46,6 +56,7 @@ const navItems = [
   { label: "Tokenomics", href: "#tokenomics" },
   { label: "Roadmap", href: "#roadmap" },
   { label: "Consultation", href: "#consult" },
+  { label: "Salon vocal", href: "/voice" },
 ];
 
 const featureCards = [
@@ -129,12 +140,6 @@ const roadmap = [
     description:
       "Lancement de l'outil reclaim one-click avec automatisation des fermetures ATA.",
   },
-];
-
-const backgroundOrbs = [
-  { style: { top: "-8%", left: "-12%" }, duration: 28 },
-  { style: { top: "12%", right: "-14%" }, duration: 32 },
-  { style: { bottom: "-16%", left: "24%" }, duration: 30 },
 ];
 
 const RECLAIM_CHUNK_SIZE = 6;
@@ -502,247 +507,286 @@ export default function Home() {
   };
 
   return (
-    <div className={styles.page}>
-      <div className={styles.backdrop}>
-        {backgroundOrbs.map((orb, index) => (
-          <motion.span
-            key={index}
-            className={styles.orb}
-            style={orb.style}
-            initial={{ opacity: 0.25, scale: 0.92 }}
-            animate={{ opacity: [0.25, 0.6, 0.25], scale: [0.88, 1.08, 0.88] }}
-            transition={{
-              duration: orb.duration,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-      </div>
+    <div className="relative min-h-screen overflow-hidden bg-[#030416] text-slate-100">
+      <BackgroundRippleEffect
+        className="absolute inset-0 opacity-50"
+        rows={10}
+        cols={30}
+        cellSize={54}
+        autoPlay
+        interactive
+      />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(99,102,241,0.22),transparent_55%),radial-gradient(circle_at_80%_10%,rgba(14,197,166,0.16),transparent_65%)]" />
 
-      <header className={styles.navbar}>
-        <div className={styles.brand}>
-          <span className={styles.brandMark}>◎</span>
-          <span className={styles.brandText}>ATA Protocol</span>
+      <header className="relative z-20 mx-auto mt-8 flex w-full max-w-6xl items-center justify-between gap-6 rounded-2xl border border-white/10 bg-white/5 px-6 py-4 backdrop-blur-sm">
+        <div className="flex items-center gap-4">
+          <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-emerald-400 via-indigo-500 to-purple-500 text-lg font-semibold text-slate-900 shadow-lg shadow-indigo-500/40">
+            ◎
+          </span>
+          <span className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-200/80">
+            ATA Protocol
+          </span>
         </div>
-        <nav className={styles.navLinks}>
+        <nav className="hidden gap-6 text-xs uppercase tracking-[0.26em] text-slate-300/70 md:flex">
           {navItems.map((item) => (
-            <a key={item.href} href={item.href}>
+            <a
+              key={item.href}
+              href={item.href}
+              className="transition hover:-translate-y-0.5 hover:text-white"
+            >
               {item.label}
             </a>
           ))}
         </nav>
-        <a className={styles.navAction} href="#consult">
+        <a
+          className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 via-indigo-500 to-purple-500 px-5 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-slate-900 shadow-lg shadow-indigo-500/40 transition hover:-translate-y-0.5 hover:shadow-indigo-400/60"
+          href="#consult"
+        >
           Consulter un wallet
         </a>
       </header>
 
-      <main className={styles.main}>
+      <main className="relative z-20 mx-auto w-full max-w-6xl space-y-20 pb-28 pt-14">
         <motion.section
           id="hero"
-          className={styles.hero}
-          initial={{ opacity: 0, scale: 0.97 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.75, ease: "easeOut" }}
+          className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-10 shadow-[0_40px_140px_rgba(6,9,26,0.55)] backdrop-blur"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <motion.span
-            className={styles.heroBeam}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0.2, 0.6, 0.2] }}
-            transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-          />
+          <LampEffect className="pointer-events-none absolute inset-0 opacity-60" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,156,255,0.28),transparent_65%),radial-gradient(circle_at_80%_20%,rgba(18,199,166,0.18),transparent_55%)]" />
 
-          <div className={styles.heroContent}>
-            <span className={styles.pill}>La naissance de $ATA</span>
-            <h1>
-              La crypto qui réinvente les Associated Token Accounts sur Solana.
-            </h1>
-            <p>
-              $ATA propulse une expérience Solana plus rapide, plus fluide et
-              plus communautaire. Conçu pour offrir une liquidité instantanée et
-              une gouvernance pilotée par les builders.
-            </p>
-            <div className={styles.heroActions}>
-              <a href="#tokenomics" className={styles.primaryAction}>
-                Explorer la tokenomics
-              </a>
-              <a href="#consult" className={styles.secondaryAction}>
-                Vérifier un wallet
-              </a>
+          <div className="relative z-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_420px]">
+            <div className="flex flex-col gap-6">
+              <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.32em] text-slate-300/70">
+                Protocole ATA • Liquidité temps réel
+              </span>
+              <h1 className="text-4xl font-semibold leading-tight text-slate-50 md:text-5xl lg:text-6xl">
+                Réinventer les Associated Token Accounts pour un Solana sans frictions.
+              </h1>
+              <p className="max-w-xl text-base leading-relaxed text-slate-300/80">
+                $ATA automatise la récupération du SOL dormant, orchestre vos trésoreries DAO et
+                intègre une gouvernance programmable sur chaque fermeture. Une pile pensée pour les
+                builders qui veulent scaler sans compromis.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <a
+                  href="#tokenomics"
+                  className="inline-flex items-center rounded-full bg-gradient-to-r from-emerald-400 via-indigo-500 to-purple-500 px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/40 transition hover:-translate-y-1 hover:shadow-indigo-400/60"
+                >
+                  Explorer la tokenomics
+                </a>
+                <a
+                  href="#consult"
+                  className="inline-flex items-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-1 hover:border-white/40"
+                >
+                  Scanner un wallet
+                </a>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-3">
+                {heroMetrics.map((metric) => (
+                  <div
+                    key={metric.label}
+                    className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 shadow-[0_18px_38px_rgba(8,10,30,0.45)] transition hover:-translate-y-1 hover:border-white/20"
+                  >
+                    <span className="text-2xl font-semibold text-white">{metric.value}</span>
+                    <p className="mt-1 text-[11px] uppercase tracking-[0.3em] text-slate-300/60">
+                      {metric.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className={styles.heroStats}>
-              {heroMetrics.map((metric) => (
+
+            <div className="flex items-stretch justify-center">
+              <div className="relative flex w-full flex-col items-center gap-6 overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/60 p-8 shadow-[0_28px_80px_rgba(4,6,24,0.55)]">
+                <GoogleGeminiEffect className="pointer-events-none absolute inset-0 opacity-60" />
+                <div className="relative z-10 rounded-3xl bg-slate-950/80 p-6 ring-1 ring-white/10">
+                  <Image
+                    src="/mascotteATA.png"
+                    alt="Mascotte officielle $ATA"
+                    width={240}
+                    height={240}
+                    priority
+                  />
+                </div>
+                <div className="relative z-10 space-y-2 text-center text-sm text-slate-300/80">
+                  <p className="font-medium tracking-[0.28em] text-slate-200/70">
+                    Console Reclaim
+                  </p>
+                  <p>
+                    Visualisation en temps réel des ATAs fermés, du SOL libéré et des règles DAO
+                    appliquées.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+
+        <motion.section
+          id="vision"
+          className="space-y-10 rounded-[30px] border border-white/10 bg-white/10 p-10 shadow-[0_30px_90px_rgba(4,6,24,0.45)]"
+          {...fadeUp}
+        >
+          <div className="space-y-4">
+            <span className="text-xs uppercase tracking-[0.32em] text-slate-300/70">Vision</span>
+            <h2 className="text-3xl font-semibold text-white">
+              Des primitives modulaires qui automatisent toute la trésorerie on-chain.
+            </h2>
+            <p className="max-w-3xl text-base leading-relaxed text-slate-300/80">
+              Une stack orientée builders : liquidité ultra-rapide, sécurité programmable,
+              gouvernance transparente. Chaque bloc peut s’intégrer à vos dApps existantes en
+              quelques lignes.
+            </p>
+          </div>
+          <LensEffect className="overflow-hidden rounded-[26px] border border-white/10 bg-white/5 p-8">
+            <div className="grid gap-6 md:grid-cols-2">
+              {featureCards.map((card) => (
+                <motion.article
+                  key={card.title}
+                  className="rounded-2xl border border-white/10 bg-slate-950/60 p-6 shadow-[0_18px_36px_rgba(6,10,32,0.45)] transition hover:-translate-y-1 hover:border-white/20"
+                  whileHover={{ translateY: -8, scale: 1.02 }}
+                  transition={{ duration: 0.22 }}
+                >
+                  <h3 className="text-lg font-semibold text-white">{card.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-300/80">
+                    {card.description}
+                  </p>
+                </motion.article>
+              ))}
+            </div>
+          </LensEffect>
+        </motion.section>
+
+        <motion.section
+          id="tokenomics"
+          className="space-y-10 rounded-[30px] border border-white/10 bg-white/10 p-10 shadow-[0_30px_90px_rgba(4,6,24,0.45)]"
+          {...fadeUp}
+        >
+          <div className="space-y-4">
+            <span className="text-xs uppercase tracking-[0.32em] text-slate-300/70">Tokenomics</span>
+            <h2 className="text-3xl font-semibold text-white">
+              Un modèle économique pensé pour aligner builders, validateurs et trésor DAO.
+            </h2>
+            <p className="max-w-3xl text-base leading-relaxed text-slate-300/80">
+              $ATA finance la croissance du réseau, liquéfie les trésoreries et récompense les
+              validateurs partenaires. Chaque allocation a un rôle stratégique long terme.
+            </p>
+          </div>
+
+          <GoogleGeminiEffect className="rounded-[26px] border border-white/10 bg-slate-950/60 p-8">
+            <div className="grid gap-6 md:grid-cols-2">
+              {tokenomics.map((item) => (
                 <motion.div
-                  key={metric.label}
+                  key={item.label}
+                  className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-[0_18px_40px_rgba(4,6,26,0.4)] transition hover:-translate-y-1 hover:border-white/20"
                   whileHover={{ y: -6, scale: 1.02 }}
                   transition={{ duration: 0.22 }}
                 >
-                  <span>{metric.value}</span>
-                  <p>{metric.label}</p>
+                  <span className="text-[11px] uppercase tracking-[0.3em] text-slate-300/60">
+                    {item.label}
+                  </span>
+                  <strong className="mt-3 block text-2xl text-white">{item.value}</strong>
+                  <p className="mt-2 text-sm text-slate-300/80">{item.helper}</p>
                 </motion.div>
               ))}
             </div>
-          </div>
+          </GoogleGeminiEffect>
 
-          <div className={styles.heroVisual}>
-            <motion.span
-              className={styles.heroHalo}
-              animate={{ scale: [0.94, 1.06, 0.94], opacity: [0.6, 1, 0.6] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.span
-              className={styles.haloRing}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 16, repeat: Infinity, ease: "linear" }}
-            />
-            <motion.div
-              className={styles.visualCard}
-              initial={{ opacity: 0, y: 26 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
-            >
-              <div className={styles.visualGlow} />
-              <motion.div
-                className={styles.visualContent}
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <p className={styles.visualLabel}>Mascotte officielle</p>
-                <Image
-                  src="/mascotteATA.png"
-                  alt="Mascotte du token $ATA"
-                  width={320}
-                  height={320}
-                  priority
-                />
-                <p className={styles.visualHelper}>
-                  Palette inspirée du gradient SOL, pour une identité lumineuse
-                  et futuriste.
-                </p>
-              </motion.div>
-            </motion.div>
-          </div>
-        </motion.section>
-
-        <motion.section id="vision" className={styles.section} {...fadeUp}>
-          <div className={styles.sectionHeading}>
-            <span>Vision</span>
-            <h2>Un protocole pensé pour la prochaine génération de builders.</h2>
-            <p>
-              La mission de $ATA est de simplifier la gestion des ATA tout en
-              offrant des primitives de liquidité puissantes et auditées.
-            </p>
-          </div>
-          <div className={styles.featuresGrid}>
-            {featureCards.map((card) => (
-              <motion.article
-                key={card.title}
-                className={styles.featureCard}
-                whileHover={{ translateY: -8, scale: 1.02 }}
-                transition={{ duration: 0.22 }}
-              >
-                <h3>{card.title}</h3>
-                <p>{card.description}</p>
-              </motion.article>
-            ))}
-          </div>
-        </motion.section>
-
-        <motion.section id="tokenomics" className={styles.section} {...fadeUp}>
-          <div className={styles.sectionHeading}>
-            <span>Tokenomics</span>
-            <h2>Une distribution maîtrisée au service de la décentralisation.</h2>
-            <p>
-              Des allocations transparentes, un calendrier de vesting lisible et
-              un trésor pensé pour durer. Toutes les données présentées sont
-              fictives et servent de base à la future release.
-            </p>
-          </div>
-
-          <div className={styles.tokenGrid}>
-            {tokenomics.map((item) => (
-              <motion.div
-                key={item.label}
-                className={styles.tokenCard}
-                whileHover={{ y: -6, scale: 1.02 }}
-                transition={{ duration: 0.22 }}
-              >
-                <span>{item.label}</span>
-                <strong>{item.value}</strong>
-                <p>{item.helper}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className={styles.breakdown}>
-            <h3>Répartition projetée</h3>
-            <ul>
+          <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-6">
+            <h3 className="text-sm uppercase tracking-[0.28em] text-slate-300/70">
+              Répartition projetée
+            </h3>
+            <ul className="mt-5 grid gap-3 sm:grid-cols-2">
               {supplyBreakdown.map((item) => (
-                <li key={item.label}>
+                <li
+                  key={item.label}
+                  className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200/80"
+                >
                   <span>{item.label}</span>
-                  <span>{item.value}</span>
+                  <span className="font-medium text-white">{item.value}</span>
                 </li>
               ))}
             </ul>
           </div>
         </motion.section>
 
-        <motion.section id="roadmap" className={styles.section} {...fadeUp}>
-          <div className={styles.sectionHeading}>
-            <span>Roadmap</span>
-            <h2>Vers une suite ATA complète.</h2>
-            <p>
-              Une progression ambitieuse pour rendre les ATA intelligents,
-              interopérables et entièrement automatisés.
+        <motion.section
+          id="roadmap"
+          className="space-y-10 rounded-[30px] border border-white/10 bg-white/10 p-10 shadow-[0_30px_90px_rgba(4,6,24,0.45)]"
+          {...fadeUp}
+        >
+          <div className="space-y-4">
+            <span className="text-xs uppercase tracking-[0.32em] text-slate-300/70">Roadmap</span>
+            <h2 className="text-3xl font-semibold text-white">
+              De la récupération basique aux agents ATA auto-gérés.
+            </h2>
+            <p className="max-w-3xl text-base leading-relaxed text-slate-300/80">
+              Une trajectoire ambitieuse pour rendre les ATAs intelligents, interopérables et
+              gouvernés par la communauté.
             </p>
           </div>
 
-          <div className={styles.roadmap}>
+          <div className="grid gap-6 md:grid-cols-2">
             {roadmap.map((item) => (
               <motion.article
                 key={item.quarter}
-                className={styles.roadmapItem}
-                whileHover={{ translateY: -6, scale: 1.02 }}
-                transition={{ duration: 0.22 }}
+                className="rounded-2xl border border-white/10 bg-slate-950/60 p-6 shadow-[0_18px_40px_rgba(4,6,26,0.4)] transition hover:-translate-y-1 hover:border-white/20"
+                whileHover={{ translateY: -6 }}
+                transition={{ duration: 0.24, ease: "easeOut" }}
               >
-                <span>{item.quarter}</span>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
+                <span className="text-[11px] uppercase tracking-[0.28em] text-slate-300/60">
+                  {item.quarter}
+                </span>
+                <h3 className="mt-3 text-xl font-semibold text-white">{item.title}</h3>
+                <p className="mt-2 text-sm text-slate-300/80">{item.description}</p>
               </motion.article>
             ))}
           </div>
         </motion.section>
 
-        <motion.section id="consult" className={styles.consult} {...fadeUp}>
-          <div className={styles.consultIntro}>
-            <span>Consultation ATA</span>
-            <h2>
-              Visualisez le SOL bloqué dans vos ATA, en un clin d&apos;œil.
+        <motion.section
+          id="consult"
+          className="space-y-10 rounded-[30px] border border-white/10 bg-white/10 p-10 shadow-[0_30px_90px_rgba(4,6,24,0.45)]"
+          {...fadeUp}
+        >
+          <div className="space-y-4">
+            <span className="text-xs uppercase tracking-[0.32em] text-slate-300/70">
+              Consultation ATA
+            </span>
+            <h2 className="text-3xl font-semibold text-white">
+              Visualisez le SOL immobilisé, déclenchez la récupération en quelques secondes.
             </h2>
-            <p>
-              Analysez un wallet Solana pour connaître le montant total de SOL
-              récupérable. Toutes les valeurs affichées sont calculées côté
-              serveur à partir de l&apos;endpoint RPC sélectionné.
+            <p className="max-w-3xl text-base leading-relaxed text-slate-300/80">
+              Analysez n’importe quelle adresse Solana, obtenez le montant récupérable et laissez le
+              protocole fermer les ATAs pour vous. Toutes les requêtes passent par l’endpoint RPC
+              configuré côté serveur.
             </p>
           </div>
 
-          <div className={styles.consultPanel}>
+          <div className="grid gap-8 lg:grid-cols-[380px_minmax(0,1fr)]">
             <motion.form
-              className={styles.walletForm}
+              className="flex flex-col gap-6 rounded-2xl border border-white/10 bg-slate-950/60 p-6"
               onSubmit={handleSubmit}
-              initial={{ opacity: 0, x: -24 }}
+              initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.55, ease: "easeOut" }}
             >
               <div
-                className={styles.modeToggle}
+                className="inline-flex self-start rounded-full border border-white/10 bg-white/5 p-1 text-[11px] uppercase tracking-[0.22em] text-slate-300/70"
                 role="radiogroup"
                 aria-label="Mode de consultation"
               >
                 <button
                   type="button"
-                  data-active={isWalletMode}
+                  className={`rounded-full px-4 py-2 transition ${
+                    isWalletMode
+                      ? "bg-gradient-to-r from-emerald-400/70 via-indigo-500/70 to-purple-500/70 text-slate-900 shadow-lg shadow-indigo-500/30"
+                      : "text-slate-300/70 hover:text-white"
+                  }`}
                   role="radio"
                   aria-checked={isWalletMode}
                   onClick={() => {
@@ -755,7 +799,11 @@ export default function Home() {
                 </button>
                 <button
                   type="button"
-                  data-active={!isWalletMode}
+                  className={`rounded-full px-4 py-2 transition ${
+                    !isWalletMode
+                      ? "bg-gradient-to-r from-emerald-400/70 via-indigo-500/70 to-purple-500/70 text-slate-900 shadow-lg shadow-indigo-500/30"
+                      : "text-slate-300/70 hover:text-white"
+                  }`}
                   role="radio"
                   aria-checked={!isWalletMode}
                   onClick={() => {
@@ -769,30 +817,38 @@ export default function Home() {
               </div>
 
               {isWalletMode ? (
-                <div className={styles.field}>
-                  <span>Wallet Solana</span>
-                  <div className={styles.walletButton}>
+                <div className="flex flex-col gap-3 text-sm text-slate-300/80">
+                  <span className="text-[11px] uppercase tracking-[0.28em] text-slate-300/60">
+                    Wallet Solana
+                  </span>
+                  <div>
                     {hasMounted ? (
-                      <WalletMultiButton />
+                      <WalletMultiButton className="w-full justify-center rounded-xl border border-white/5 bg-gradient-to-r from-emerald-400 via-indigo-500 to-purple-500 px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/40 transition hover:-translate-y-0.5" />
                     ) : (
-                      <button type="button" className={styles.walletPlaceholder} disabled>
+                      <button
+                        type="button"
+                        className="w-full cursor-wait rounded-xl border border-dashed border-white/20 bg-white/5 px-4 py-3 text-sm text-slate-300/60"
+                        disabled
+                      >
                         Connexion…
                       </button>
                     )}
                   </div>
                   {isWalletReady && publicKey ? (
-                    <p className={styles.connectedWallet}>
-                      Connecté&nbsp;: <span>{shortAddress}</span>
+                    <p className="text-xs text-slate-200/80">
+                      Connecté&nbsp;: <span className="font-mono text-white">{shortAddress}</span>
                     </p>
                   ) : (
-                    <p className={styles.fieldHelper}>
-                      Sélectionnez votre wallet pour lancer l&apos;analyse automatique.
+                    <p className="text-xs text-slate-300/70">
+                      Connectez votre wallet pour lancer l’analyse automatique.
                     </p>
                   )}
                 </div>
               ) : (
-                <label className={styles.field}>
-                  <span>Adresse du wallet Solana</span>
+                <label className="flex flex-col gap-3 text-sm text-slate-300/80">
+                  <span className="text-[11px] uppercase tracking-[0.28em] text-slate-300/60">
+                    Adresse du wallet Solana
+                  </span>
                   <input
                     type="text"
                     placeholder="Ex : 9x6u… (base58)"
@@ -800,35 +856,40 @@ export default function Home() {
                     onChange={(event) => setManualAddress(event.target.value)}
                     autoComplete="off"
                     required
+                    className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-mono text-sm text-white outline-none transition focus:border-white/40 focus:ring-4 focus:ring-indigo-500/20"
                   />
-                  <p className={styles.fieldHelper}>
+                  <p className="text-xs text-slate-300/70">
                     Collez une adresse base58 pour lancer l’analyse sans connecter de wallet.
                   </p>
                 </label>
               )}
 
               {!isWalletMode && (
-                <button type="submit" disabled={!canFetch}>
+                <button
+                  type="submit"
+                  disabled={!canFetch}
+                  className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-gradient-to-r from-emerald-400 via-indigo-500 to-purple-500 px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/40 transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
+                >
                   {viewStatus === "loading" ? "Analyse en cours…" : "Analyser"}
                 </button>
               )}
             </motion.form>
 
             <motion.div
-              className={styles.resultPanel}
-              initial={{ opacity: 0, x: 24 }}
+              className="rounded-2xl border border-white/10 bg-slate-950/60 p-6"
+              initial={{ opacity: 0, x: 28 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.55, ease: "easeOut", delay: 0.1 }}
+              transition={{ duration: 0.55, ease: "easeOut", delay: 0.12 }}
             >
               {viewStatus === "idle" && (
-                <p className={styles.placeholder}>{idleMessage}</p>
+                <p className="text-sm text-slate-300/70">{idleMessage}</p>
               )}
 
               {viewStatus === "loading" && (
                 <motion.p
                   key="loading"
-                  className={styles.loading}
+                  className="text-sm text-slate-200/80"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
@@ -839,7 +900,7 @@ export default function Home() {
               {viewStatus === "error" && (
                 <motion.p
                   key="error"
-                  className={styles.error}
+                  className="rounded-xl border border-rose-400/30 bg-rose-500/10 p-4 text-sm text-rose-200"
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
@@ -850,51 +911,45 @@ export default function Home() {
               {viewStatus === "success" && viewResult && (
                 <motion.div
                   key={viewResult.walletAddress}
-                  className={styles.resultCard}
+                  className="flex flex-col gap-5"
                   initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                    boxShadow: [
-                      "0 0 0 rgba(153, 69, 255, 0.35)",
-                      "0 0 45px rgba(153, 69, 255, 0.5)",
-                      "0 0 0 rgba(153, 69, 255, 0.35)",
-                    ],
-                  }}
-                  transition={{
-                    duration: 0.6,
-                    ease: "easeOut",
-                    boxShadow: { duration: 3.6, repeat: Infinity },
-                  }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
                 >
-                  <span className={styles.resultLabel}>SOL récupérable</span>
-                  <strong className={styles.resultValue}>
+                  <span className="text-xs uppercase tracking-[0.28em] text-slate-300/60">
+                    SOL récupérable
+                  </span>
+                  <strong className="text-4xl font-semibold text-white">
                     {viewResult.reclaimableSOLFormatted} ◎
                   </strong>
-                  <div className={styles.resultStats}>
-                    <div>
-                      <p>ATAs vides</p>
-                      <span>{emptyAtasCount}</span>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm">
+                      <p className="text-[11px] uppercase tracking-[0.26em] text-slate-300/60">
+                        ATAs vides
+                      </p>
+                      <span className="mt-1 block text-xl text-white">{emptyAtasCount}</span>
                     </div>
-                    <div>
-                      <p>Total ATAs</p>
-                      <span>{totalAtasCount}</span>
+                    <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm">
+                      <p className="text-[11px] uppercase tracking-[0.26em] text-slate-300/60">
+                        Total ATAs
+                      </p>
+                      <span className="mt-1 block text-xl text-white">{totalAtasCount}</span>
                     </div>
                   </div>
 
                   {canReclaim ? (
                     <button
                       type="button"
-                      className={styles.reclaimButton}
                       onClick={() => {
                         void handleReclaim();
                       }}
                       disabled={reclaiming}
+                      className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-gradient-to-r from-emerald-400 via-indigo-500 to-purple-500 px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/40 transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       {reclaimButtonLabel}
                     </button>
                   ) : (
-                    <p className={styles.reclaimHint}>
+                    <p className="text-sm text-slate-300/70">
                       {emptyAtasCount === 0
                         ? "Aucun ATA vide à fermer."
                         : isWalletMode
@@ -904,22 +959,21 @@ export default function Home() {
                   )}
 
                   {reclaimError && (
-                    <p
-                      className={`${styles.reclaimFeedback} ${styles.reclaimFeedbackError}`}
-                    >
+                    <p className="rounded-xl border border-rose-400/30 bg-rose-500/10 p-3 text-xs text-rose-200">
                       {reclaimError}
                     </p>
                   )}
 
                   {reclaimSuccess && (
-                    <div
-                      className={`${styles.reclaimFeedback} ${styles.reclaimFeedbackSuccess}`}
-                    >
+                    <div className="rounded-xl border border-emerald-400/30 bg-emerald-500/10 p-4 text-sm text-emerald-100">
                       <p>{reclaimSuccess}</p>
                       {reclaimSignatures.length > 0 && (
-                        <ul className={styles.reclaimSignatures}>
+                        <ul className="mt-2 flex flex-wrap gap-2 text-xs">
                           {reclaimSignatures.map((signature) => (
-                            <li key={signature}>
+                            <li
+                              key={signature}
+                              className="rounded-md bg-emerald-500/10 px-2 py-1 font-mono text-emerald-100"
+                            >
                               {signature.slice(0, 4)}…{signature.slice(-4)}
                             </li>
                           ))}
@@ -929,27 +983,28 @@ export default function Home() {
                   )}
 
                   {isWalletMode && ownedResult && (
-                    <div className={styles.rewardSection}>
+                  <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-xs text-slate-300/80">
                       {rewardState.status === "idle" && (
                         <p>
-                          Les pionniers reçoivent un NFT &laquo;&nbsp;Welcome
-                          Family Pioneer&nbsp;&raquo; après leur premier reclaim.
+                          Les pionniers reçoivent un NFT «&nbsp;Welcome Family&nbsp;» après leur
+                          premier reclaim.
                         </p>
                       )}
                       {rewardState.status === "pending" && (
-                        <p className={styles.rewardPending}>
+                        <p className="text-indigo-200">
                           Distribution du NFT de bienvenue en cours…
                         </p>
                       )}
                       {rewardState.status === "minted" && (
-                        <div className={styles.rewardSuccess}>
-                          <p>Félicitations, vous rejoignez la Welcome Family !</p>
-                          <div className={styles.rewardLinks}>
+                        <div className="space-y-2 text-emerald-100">
+                          <p>Félicitations, vous rejoignez la Welcome Family&nbsp;!</p>
+                          <div className="flex flex-wrap gap-3">
                             {rewardState.mintAddress && (
                               <a
                                 href={`https://solscan.io/token/${rewardState.mintAddress}`}
                                 target="_blank"
                                 rel="noreferrer"
+                                className="rounded-full border border-emerald-400/40 px-3 py-1"
                               >
                                 Voir le NFT
                               </a>
@@ -959,6 +1014,7 @@ export default function Home() {
                                 href={`https://solscan.io/tx/${rewardState.signature}`}
                                 target="_blank"
                                 rel="noreferrer"
+                                className="rounded-full border border-emerald-400/40 px-3 py-1"
                               >
                                 Voir la transaction
                               </a>
@@ -967,51 +1023,41 @@ export default function Home() {
                         </div>
                       )}
                       {rewardState.status === "already" && (
-                        <div className={styles.rewardSuccess}>
-                          <p>Votre NFT Welcome Family est déjà dans votre wallet.</p>
-                          {rewardState.mintAddress && (
-                            <div className={styles.rewardLinks}>
-                              <a
-                                href={`https://solscan.io/token/${rewardState.mintAddress}`}
-                                target="_blank"
-                                rel="noreferrer"
-                              >
-                                Ouvrir sur Solscan
-                              </a>
-                            </div>
-                          )}
-                        </div>
+                        <p>Votre NFT Welcome Family est déjà dans votre wallet.</p>
                       )}
                       {rewardState.status === "error" && (
-                        <p className={styles.rewardError}>{rewardState.message}</p>
+                        <p className="text-rose-200">{rewardState.message}</p>
                       )}
                     </div>
                   )}
 
-                  <div className={styles.ataList}>
-                    <div className={styles.ataListHeading}>
+                  <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-xs text-slate-200/80">
+                    <div className="flex justify-between text-[11px] uppercase tracking-[0.22em] text-slate-300/60">
                       <span>ATA</span>
                       <span>Mint</span>
                     </div>
                     {previewAccounts.length > 0 ? (
-                      <>
-                        <ul>
-                          {previewAccounts.map((account) => (
-                            <li key={account.ataAddress}>
-                              <span>{account.ataAddress}</span>
-                              <span>{account.mint}</span>
-                            </li>
-                          ))}
-                        </ul>
+                      <div className="mt-3 space-y-2">
+                        {previewAccounts.map((account) => (
+                          <div
+                            key={account.ataAddress}
+                            className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-4 rounded-lg bg-slate-900/60 px-3 py-2 font-mono text-[11px]"
+                          >
+                            <span className="truncate">{account.ataAddress}</span>
+                            <span className="truncate text-right text-slate-300/70">
+                              {account.mint}
+                            </span>
+                          </div>
+                        ))}
                         {remainingAccounts > 0 && (
-                          <p className={styles.ataListFoot}>
+                          <p className="text-center text-[11px] text-slate-300/60">
                             + {remainingAccounts} autre
                             {remainingAccounts > 1 ? "s" : ""} ATA
                           </p>
                         )}
-                      </>
+                      </div>
                     ) : (
-                      <p className={styles.reclaimInfo}>
+                      <p className="mt-4 text-center text-sm text-slate-300/70">
                         {emptyAtasCount === 0
                           ? "Aucun ATA vide détecté."
                           : "Liste d'ATAs indisponible."}
@@ -1025,15 +1071,23 @@ export default function Home() {
         </motion.section>
       </main>
 
-      <footer className={styles.footer}>
-        <div>
-          <span className={styles.brandMark}>◎</span>
+      <footer className="relative z-20 mx-auto mb-12 mt-10 flex w-full max-w-6xl flex-wrap items-center justify-between gap-6 rounded-2xl border border-white/10 bg-white/10 px-8 py-5 text-sm text-slate-300/80">
+        <div className="flex items-center gap-3">
+          <span className="grid h-10 w-10 place-items-center rounded-lg bg-gradient-to-br from-emerald-400 via-indigo-500 to-purple-500 text-base font-semibold text-slate-900 shadow-lg shadow-indigo-500/40">
+            ◎
+          </span>
           <p>© {new Date().getFullYear()} ATA Protocol — Build the future, reclaim the rent.</p>
         </div>
-        <div className={styles.footerLinks}>
-          <a href="#hero">Haut de page</a>
-          <a href="#tokenomics">Tokenomics</a>
-          <a href="#consult">Consulter un wallet</a>
+        <div className="flex items-center gap-4">
+          <a className="transition hover:text-white" href="#hero">
+            Haut de page
+          </a>
+          <a className="transition hover:text-white" href="#tokenomics">
+            Tokenomics
+          </a>
+          <a className="transition hover:text-white" href="#consult">
+            Consulter un wallet
+          </a>
         </div>
       </footer>
     </div>

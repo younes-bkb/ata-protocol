@@ -1,0 +1,245 @@
+.rippleRoot {
+  position: absolute;
+  inset: -40% -32%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 0;
+}
+
+.rippleCore,
+.rippleRing,
+.rippleBlur {
+  position: absolute;
+  border-radius: 999px;
+}
+
+.rippleCore {
+  width: min(1200px, 160vw);
+  aspect-ratio: 1 / 1;
+  background: radial-gradient(circle at 50% 40%, rgba(153, 69, 255, 0.45), rgba(94, 137, 255, 0.4) 35%, rgba(20, 241, 149, 0.18) 58%, transparent 72%);
+  filter: blur(120px);
+  opacity: 0.55;
+  animation: ripplePulse 18s ease-in-out infinite;
+}
+
+.rippleRing {
+  width: min(960px, 128vw);
+  aspect-ratio: 1 / 1;
+  border: 1px solid rgba(143, 176, 255, 0.35);
+  box-shadow: 0 0 140px rgba(118, 158, 255, 0.32);
+  opacity: 0.55;
+  animation: rippleOrbit 36s linear infinite;
+}
+
+.rippleBlur {
+  width: min(720px, 100vw);
+  aspect-ratio: 1 / 1;
+  background: radial-gradient(circle, rgba(20, 241, 149, 0.32), transparent 60%);
+  filter: blur(90px);
+  opacity: 0.7;
+  animation: rippleDrift 26s ease-in-out infinite;
+}
+
+.lampRoot {
+  position: absolute;
+  inset: -12% 0 -20%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.lampBeam,
+.lampGlow,
+.lampHalo {
+  position: absolute;
+}
+
+.lampBeam {
+  top: -32%;
+  width: clamp(420px, 52vw, 860px);
+  height: clamp(520px, 70vw, 1120px);
+  background: radial-gradient(ellipse at var(--lamp-x, 50%) var(--lamp-y, 30%), rgba(146, 185, 255, 0.45), rgba(20, 241, 149, 0.24) 55%, transparent 75%);
+  filter: blur(120px);
+  opacity: 0.78;
+  animation: lampPulse 14s ease-in-out infinite;
+}
+
+.lampGlow {
+  top: 10%;
+  width: clamp(260px, 38vw, 520px);
+  height: clamp(180px, 28vw, 340px);
+  background: radial-gradient(ellipse at var(--lamp-x, 50%) var(--lamp-y, 40%), rgba(255, 255, 255, 0.28), rgba(153, 69, 255, 0.35), transparent 68%);
+  filter: blur(80px);
+  opacity: 0.85;
+  animation: lampBreath 12s ease-in-out infinite;
+}
+
+.lampHalo {
+  top: 2%;
+  width: clamp(320px, 44vw, 640px);
+  height: clamp(320px, 44vw, 640px);
+  border-radius: 50%;
+  border: 1px solid rgba(151, 186, 255, 0.35);
+  box-shadow: 0 0 200px rgba(99, 140, 255, 0.32);
+  animation: rotate 28s linear infinite;
+  opacity: 0.4;
+}
+
+.geminiRoot {
+  position: relative;
+  display: block;
+  isolation: isolate;
+}
+
+.geminiRing,
+.geminiAura {
+  position: absolute;
+  inset: -38% -32%;
+  border-radius: 999px;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.geminiRing {
+  background: conic-gradient(
+    from 120deg,
+    rgba(153, 69, 255, 0.65),
+    rgba(20, 241, 149, 0.4),
+    rgba(77, 120, 255, 0.6),
+    rgba(153, 69, 255, 0.65)
+  );
+  filter: blur(140px);
+  opacity: 0.55;
+  animation: geminiSpin 28s linear infinite;
+}
+
+.geminiAura {
+  inset: -24% -28%;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(153, 69, 255, 0.45), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(20, 241, 149, 0.4), transparent 65%);
+  filter: blur(120px);
+  opacity: 0.65;
+  animation: geminiPulse 16s ease-in-out infinite;
+}
+
+.geminiContent {
+  position: relative;
+  z-index: 1;
+}
+
+.lensRoot {
+  --lens-x: 50%;
+  --lens-y: 50%;
+  position: relative;
+  border-radius: 30px;
+  border: 1px solid rgba(106, 148, 255, 0.22);
+  background: rgba(10, 14, 32, 0.7);
+  overflow: hidden;
+  backdrop-filter: blur(18px);
+  transition: border-color 0.35s ease, background 0.35s ease;
+}
+
+.lensRoot:hover {
+  border-color: rgba(148, 186, 255, 0.38);
+  background: rgba(12, 16, 36, 0.82);
+}
+
+.lensOverlay {
+  position: absolute;
+  inset: -25%;
+  background: radial-gradient(circle at var(--lens-x) var(--lens-y), rgba(153, 69, 255, 0.45), rgba(20, 241, 149, 0.22) 45%, transparent 70%);
+  filter: blur(90px);
+  opacity: 0.75;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.lensContent {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes ripplePulse {
+  0%,
+  100% {
+    transform: scale(0.95);
+    opacity: 0.45;
+  }
+  40% {
+    opacity: 0.65;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.85;
+  }
+}
+
+@keyframes rippleOrbit {
+  0% {
+    transform: rotate(0deg) scale(0.9);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.06);
+  }
+  100% {
+    transform: rotate(360deg) scale(0.9);
+  }
+}
+
+@keyframes rippleDrift {
+  0%,
+  100% {
+    transform: translateY(-4%) scale(0.95);
+  }
+  50% {
+    transform: translateY(6%) scale(1.05);
+  }
+}
+
+@keyframes lampPulse {
+  0%,
+  100% {
+    transform: scale(0.94);
+    opacity: 0.68;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 0.88;
+  }
+}
+
+@keyframes lampBreath {
+  0%,
+  100% {
+    transform: translateY(-6%) scale(0.96);
+  }
+  50% {
+    transform: translateY(6%) scale(1.04);
+  }
+}
+
+@keyframes geminiSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes geminiPulse {
+  0%,
+  100% {
+    transform: scale(0.95);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
