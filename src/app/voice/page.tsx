@@ -88,7 +88,7 @@ export default function VoicePage() {
     <div className={styles.page}>
       {!token || !serverUrl ? (
         <div className={styles.card}>
-          <h1>Voice Chain — Welcome Family</h1>
+          <h1>VoiceChain — Welcome Family</h1>
           <p className={styles.hint}>
             Join the voice room reserved for holders of the “Welcome Family Pioneer” NFT.
           </p>

@@ -57,7 +57,7 @@ const navItems = [
   { label: "Tokenomics", href: "#tokenomics" },
   { label: "Roadmap", href: "#roadmap" },
   { label: "Consult", href: "#consult" },
-  { label: "Voice Chain", href: "/voice" },
+  { label: "VoiceChain", href: "/voice" },
 ];
 
 const featureCards = [
@@ -77,7 +77,7 @@ const featureCards = [
       "Collectible passes that unlock gated treasury experiments and early feature drops.",
   },
   {
-    title: "Voice Chain",
+    title: "VoiceChain",
     description:
       "Live war rooms where builders and governors sync strategy in real time.",
   },
@@ -524,16 +524,16 @@ export default function Home() {
       />
       <div className="pointer-events-none absolute inset-0 opacity-0 bg-[radial-gradient(circle_at_20%_0%,rgba(99,102,241,0.12),transparent_55%),radial-gradient(circle_at_80%_10%,rgba(14,197,166,0.09),transparent_65%)]" />
 
-      <header className="relative z-20 mx-auto mt-8 flex w-full max-w-6xl items-center justify-between gap-6 rounded-2xl border border-white/10 bg-white/5 px-6 py-4 backdrop-blur-sm">
-        <div className="flex items-center gap-4">
+      <header className="relative z-20 mx-auto mt-4 flex w-full max-w-[960px] flex-col items-start gap-4 rounded-2xl border border-white/10 bg-white/5 px-4 py-2.5 backdrop-blur-sm sm:mt-5 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-5 sm:py-3 md:flex-row md:items-center md:gap-6">
+        <div className="flex items-center gap-3 sm:gap-4 md:flex-1">
           <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-emerald-400 via-indigo-500 to-purple-500 text-lg font-semibold text-slate-900 shadow-lg shadow-indigo-500/40">
             ◎
           </span>
-          <span className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-200/80">
+          <span className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-200/80 sm:text-sm">
             ATA Protocol
           </span>
         </div>
-        <nav className="hidden gap-6 text-xs uppercase tracking-[0.26em] text-slate-300/70 md:flex">
+        <nav className="hidden gap-5 text-[11px] uppercase tracking-[0.26em] text-slate-300/70 md:flex md:flex-1 md:justify-center">
           {navItems.map((item) => (
             <a
               key={item.href}
@@ -545,17 +545,17 @@ export default function Home() {
           ))}
         </nav>
         <a
-          className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 via-indigo-500 to-purple-500 px-5 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-slate-900 shadow-lg shadow-indigo-500/40 transition hover:-translate-y-0.5 hover:shadow-indigo-400/60"
+          className="inline-flex w-full items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 via-indigo-500 to-purple-500 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.32em] text-slate-900 shadow-lg shadow-indigo-500/40 transition hover:-translate-y-0.5 hover:shadow-indigo-400/60 sm:w-auto sm:px-5 md:flex-1 md:max-w-[220px]"
           href="#consult"
         >
-          Consult a wallet
+          Scan wallet
         </a>
       </header>
 
-      <main className="relative z-20 mx-auto w-full max-w-6xl space-y-20 pb-28 pt-14">
+      <main className="relative z-20 mx-auto w-full max-w-[960px] space-y-10 px-4 pb-16 pt-8 sm:space-y-12 sm:px-0 sm:pt-9">
         <motion.section
           id="hero"
-          className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-10 shadow-[0_40px_140px_rgba(6,9,26,0.55)] backdrop-blur"
+          className="relative overflow-hidden rounded-[24px] border border-white/10 bg-white/5 p-5 shadow-[0_32px_110px_rgba(6,9,26,0.5)] backdrop-blur sm:rounded-[28px] sm:p-7"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
@@ -563,10 +563,10 @@ export default function Home() {
           <LampEffect className="pointer-events-none absolute inset-0 opacity-0" />
           <div className="pointer-events-none absolute inset-0" />
 
-          <div className="relative z-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_420px]">
-            <div className="flex flex-col gap-6">
+          <div className="relative z-10 grid gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
+            <div className="flex flex-col gap-4 sm:gap-5">
 
-              <h1 className="text-6xl font-bold leading-tight text-slate-50 md:text-7xl lg:text-8xl bg-gradient-to-r from-emerald-400 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
+              <h1 className="text-[3.4rem] font-bold leading-[0.92] text-slate-50 sm:text-[3.8rem] md:text-[4.5rem] lg:text-[5.5rem] xl:text-[6rem] bg-gradient-to-r from-emerald-400 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
                 Associated<br />Token<br />Account
               </h1>
 
@@ -574,13 +574,13 @@ export default function Home() {
 
 
               </div>
-              <div className="grid gap-4 sm:grid-cols-3">
+              <div className="grid gap-3 sm:grid-cols-3">
                 {heroMetrics.map((metric) => (
                   <div
                     key={metric.label}
-                    className="rounded-2xl border border-white/10 bg-[rgba(255,255,255,0.08)] px-5 py-4 shadow-[0_18px_38px_rgba(8,10,30,0.45)] transition hover:-translate-y-1 hover:border-white/20"
+                    className="rounded-2xl border border-white/10 bg-[rgba(255,255,255,0.08)] px-4 py-3 shadow-[0_14px_26px_rgba(8,10,30,0.38)] transition hover:-translate-y-1 hover:border-white/20 sm:px-5"
                   >
-                    <span className="text-2xl font-semibold text-white">{metric.value}</span>
+                    <span className="text-lg font-semibold text-white sm:text-xl">{metric.value}</span>
                     <p className="mt-1 text-[11px] uppercase tracking-[0.3em] text-slate-300/60">
                       {metric.label}
                     </p>
@@ -590,9 +590,9 @@ export default function Home() {
             </div>
 
             <div className="flex items-stretch justify-center">
-              <div className="relative flex w-full flex-col items-center gap-6 overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/60 p-8 shadow-[0_28px_80px_rgba(4,6,24,0.55)]">
+              <div className="relative flex w-full flex-col items-center gap-4 overflow-hidden rounded-[24px] border border-white/10 bg-slate-950/60 p-5 shadow-[0_22px_58px_rgba(4,6,24,0.45)] sm:rounded-[26px] sm:p-6">
                 <GoogleGeminiEffect className="pointer-events-none absolute inset-0 opacity-0"><div/></GoogleGeminiEffect>
-                <div className="relative z-10 rounded-3xl bg-slate-950/80 p-6 ring-1 ring-white/10">
+                <div className="relative z-10 rounded-3xl bg-slate-950/80 p-4 ring-1 ring-white/10 sm:p-5">
                   <Image
                     src="/mascotteATA.png"
                     alt="Official $ATA Mascot"
@@ -616,7 +616,7 @@ export default function Home() {
 
         <motion.section
           id="narration"
-          className="space-y-10 rounded-[30px] border border-white/10 bg-white/10 p-10 shadow-[0_30px_90px_rgba(4,6,24,0.45)]"
+          className="space-y-6 rounded-[24px] border border-white/10 bg-white/10 p-5 shadow-[0_20px_68px_rgba(4,6,24,0.38)] sm:space-y-7 sm:rounded-[26px] sm:p-7"
           {...fadeUp}
         >
           <div className="space-y-4">
@@ -624,21 +624,21 @@ export default function Home() {
             <h2 className="text-3xl font-semibold text-white">
               Modular primitives that automate the entire on-chain treasury.
             </h2>
-            <p className="max-w-3xl text-base leading-relaxed text-slate-300/80">
+            <p className="max-w-2xl text-base leading-relaxed text-slate-300/80">
               A builder-oriented stack: ultra-fast liquidity, programmable security, transparent governance. Each block can be integrated into your existing dApps in a few lines.
             </p>
           </div>
-          <LensEffect className="overflow-hidden rounded-[26px] border border-white/10 bg-white/5 p-8">
-            <div className="grid gap-6 md:grid-cols-2">
+          <LensEffect className="overflow-hidden rounded-[24px] border border-white/10 bg-white/5 p-4 sm:p-5">
+            <div className="grid gap-4 sm:gap-5 md:grid-cols-2">
               {featureCards.map((card) => (
                 <motion.article
                   key={card.title}
-                  className="rounded-2xl border border-white/10 bg-slate-950/60 p-6 shadow-[0_18px_36px_rgba(6,10,32,0.45)] transition hover:-translate-y-1 hover:border-white/20"
-                  whileHover={{ translateY: -8, scale: 1.02 }}
+                  className="rounded-2xl border border-white/10 bg-slate-950/60 p-4 shadow-[0_16px_28px_rgba(6,10,32,0.38)] transition hover:-translate-y-1 hover:border-white/20"
+                  whileHover={{ translateY: -6, scale: 1.015 }}
                   transition={{ duration: 0.22 }}
                 >
-                  <h3 className="text-lg font-semibold text-white">{card.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-300/80">
+                  <h3 className="text-base font-semibold text-white">{card.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-300/75">
                     {card.description}
                   </p>
                 </motion.article>
@@ -649,7 +649,7 @@ export default function Home() {
 
         <motion.section
           id="tokenomics"
-          className="space-y-10 rounded-[30px] border border-white/10 bg-white/10 p-10 shadow-[0_30px_90px_rgba(4,6,24,0.45)]"
+          className="space-y-6 rounded-[24px] border border-white/10 bg-white/10 p-5 shadow-[0_20px_68px_rgba(4,6,24,0.38)] sm:space-y-7 sm:rounded-[26px] sm:p-7"
           {...fadeUp}
         >
           <div className="space-y-4">
@@ -657,31 +657,31 @@ export default function Home() {
             <h2 className="text-3xl font-semibold text-white">
               An economic model designed to align builders, validators and DAO treasury.
             </h2>
-            <p className="max-w-3xl text-base leading-relaxed text-slate-300/80">
+            <p className="max-w-2xl text-base leading-relaxed text-slate-300/80">
               $ATA finances network growth, liquefies treasuries and rewards partner validators. Each allocation has a long-term strategic role.
             </p>
           </div>
 
-          <GoogleGeminiEffect className="rounded-[26px] border border-white/10 bg-slate-950/60 p-8">
-            <div className="grid gap-6 md:grid-cols-2">
+          <GoogleGeminiEffect className="rounded-[24px] border border-white/10 bg-slate-950/60 p-4 sm:p-5">
+            <div className="grid gap-4 sm:gap-5 md:grid-cols-2">
               {tokenomics.map((item) => (
                 <motion.div
                   key={item.label}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-[0_18px_40px_rgba(4,6,26,0.4)] transition hover:-translate-y-1 hover:border-white/20"
+                  className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-[0_16px_28px_rgba(4,6,26,0.38)] transition hover:-translate-y-1 hover:border-white/20"
                   whileHover={{ y: -6, scale: 1.02 }}
                   transition={{ duration: 0.22 }}
                 >
                   <span className="text-[11px] uppercase tracking-[0.3em] text-slate-300/60">
                     {item.label}
                   </span>
-                  <strong className="mt-3 block text-2xl text-white">{item.value}</strong>
-                  <p className="mt-2 text-sm text-slate-300/80">{item.helper}</p>
+                  <strong className="mt-2 block text-xl text-white">{item.value}</strong>
+                  <p className="mt-2 text-sm text-slate-300/75">{item.helper}</p>
                 </motion.div>
               ))}
             </div>
           </GoogleGeminiEffect>
 
-          <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-6">
+          <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
             <h3 className="text-sm uppercase tracking-[0.28em] text-slate-300/70">
               Projected Distribution
             </h3>
@@ -701,7 +701,7 @@ export default function Home() {
 
         <motion.section
           id="roadmap"
-          className="space-y-10 rounded-[30px] border border-white/10 bg-white/10 p-10 shadow-[0_30px_90px_rgba(4,6,24,0.45)]"
+          className="space-y-6 rounded-[24px] border border-white/10 bg-white/10 p-5 shadow-[0_20px_68px_rgba(4,6,24,0.38)] sm:space-y-7 sm:rounded-[26px] sm:p-7"
           {...fadeUp}
         >
           <div className="space-y-4">
@@ -709,16 +709,16 @@ export default function Home() {
             <h2 className="text-3xl font-semibold text-white">
               From basic recovery to self-managed ATA agents.
             </h2>
-            <p className="max-w-3xl text-base leading-relaxed text-slate-300/80">
+            <p className="max-w-2xl text-base leading-relaxed text-slate-300/80">
               An ambitious trajectory to make ATAs intelligent, interoperable and community-governed.
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-4 sm:gap-5 md:grid-cols-2">
             {roadmap.map((item) => (
               <motion.article
                 key={item.quarter}
-                className="rounded-2xl border border-white/10 bg-slate-950/60 p-6 shadow-[0_18px_40px_rgba(4,6,26,0.4)] transition hover:-translate-y-1 hover:border-white/20"
+                className="rounded-2xl border border-white/10 bg-slate-950/60 p-4 shadow-[0_16px_28px_rgba(4,6,26,0.38)] transition hover:-translate-y-1 hover:border-white/20"
                 whileHover={{ translateY: -6 }}
                 transition={{ duration: 0.24, ease: "easeOut" }}
               >
@@ -734,7 +734,7 @@ export default function Home() {
 
         <motion.section
           id="consult"
-          className="space-y-10 rounded-[30px] border border-white/10 bg-white/10 p-10 shadow-[0_30px_90px_rgba(4,6,24,0.45)]"
+          className="space-y-7 rounded-[26px] border border-white/10 bg-white/10 p-6 shadow-[0_30px_90px_rgba(4,6,24,0.45)] sm:space-y-10 sm:rounded-[30px] sm:p-10"
           {...fadeUp}
         >
           <div className="space-y-4">
@@ -744,14 +744,14 @@ export default function Home() {
             <h2 className="text-3xl font-semibold text-white">
               Visualize the immobilized SOL, trigger the recovery in a few seconds.
             </h2>
-            <p className="max-w-3xl text-base leading-relaxed text-slate-300/80">
+            <p className="max-w-2xl text-base leading-relaxed text-slate-300/80">
               Analyze any Solana address, get the recoverable amount and let the protocol close the ATAs for you. All requests go through the RPC endpoint configured on the server side.
             </p>
           </div>
 
-          <div className="grid gap-8 lg:grid-cols-[380px_minmax(0,1fr)]">
+          <div className="grid gap-6 lg:grid-cols-[380px_minmax(0,1fr)] sm:gap-8">
             <motion.form
-              className="flex flex-col gap-6 rounded-2xl border border-white/10 bg-slate-950/60 p-6"
+              className="flex flex-col gap-5 rounded-2xl border border-white/10 bg-slate-950/60 p-5 sm:gap-6 sm:p-6"
               onSubmit={handleSubmit}
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -859,7 +859,7 @@ export default function Home() {
             </motion.form>
 
             <motion.div
-              className="rounded-2xl border border-white/10 bg-slate-950/60 p-6"
+              className="rounded-2xl border border-white/10 bg-slate-950/60 p-5 sm:p-6"
               initial={{ opacity: 0, x: 28 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-40px" }}
@@ -1053,14 +1053,14 @@ export default function Home() {
         </motion.section>
       </main>
 
-      <footer className="relative z-20 mx-auto mb-12 mt-10 flex w-full max-w-6xl flex-wrap items-center justify-between gap-6 rounded-2xl border border-white/10 bg-white/10 px-8 py-5 text-sm text-slate-300/80">
+      <footer className="relative z-20 mx-auto mb-8 mt-7 flex w-full max-w-[960px] flex-col items-start gap-3 rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-xs text-slate-300/80 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-5 sm:py-3.5 sm:text-xs">
         <div className="flex items-center gap-3">
           <span className="grid h-10 w-10 place-items-center rounded-lg bg-gradient-to-br from-emerald-400 via-indigo-500 to-purple-500 text-base font-semibold text-slate-900 shadow-lg shadow-indigo-500/40">
             ◎
           </span>
           <p>© {new Date().getFullYear()} ATA Protocol — Build the future, reclaim the rent.</p>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-3">
           <a className="transition hover:text-white" href="#hero">
             Top of page
           </a>
@@ -1068,7 +1068,7 @@ export default function Home() {
             Tokenomics
           </a>
           <a className="transition hover:text-white" href="#consult">
-            Consult a wallet
+            Scan wallet
           </a>
         </div>
       </footer>

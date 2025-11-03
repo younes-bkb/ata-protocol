@@ -31,7 +31,7 @@ const SOCIAL_LINKS = [
     href: "#",
   },
   {
-    title: "Voice Chain",
+    title: "VoiceChain",
     icon: (
       <IconHeadphones className="h-full w-full text-white/90 transition group-hover:text-white" />
     ),
