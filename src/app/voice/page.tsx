@@ -37,7 +37,7 @@ export default function VoicePage() {
 
   const handleJoin = useCallback(async () => {
     if (!walletAddress || !signMessage) {
-      setError("Connectez un wallet compatible et autorisez la signature.");
+      setError("Connect a compatible wallet and authorize the signature.");
       return;
     }
 
@@ -65,7 +65,7 @@ export default function VoicePage() {
       const payload = await response.json();
 
       if (!response.ok || payload.success !== true) {
-        setError(payload?.message ?? "Accès refusé au salon vocal.");
+        setError(payload?.message ?? "Access to voice chain denied.");
         return;
       }
 
@@ -73,7 +73,7 @@ export default function VoicePage() {
       setServerUrl(payload.url as string);
     } catch (joinError) {
       console.error(joinError);
-      setError("Impossible de rejoindre le salon. Réessayez.");
+      setError("Could not join the room. Please try again.");
     } finally {
       setJoining(false);
     }
@@ -88,22 +88,22 @@ export default function VoicePage() {
     <div className={styles.page}>
       {!token || !serverUrl ? (
         <div className={styles.card}>
-          <h1>Salon vocal — Welcome Family</h1>
+          <h1>Voice Chain — Welcome Family</h1>
           <p className={styles.hint}>
-            Rejoignez la room vocale réservée aux détenteurs du NFT « Welcome Family Pioneer ».
+            Join the voice room reserved for holders of the “Welcome Family Pioneer” NFT.
           </p>
 
           <div className={styles.field}>
-            <span>Wallet connecté</span>
+            <span>Connected Wallet</span>
             {hasMounted ? (
               <WalletMultiButton />
             ) : (
               <button type="button" className={styles.walletPlaceholder} disabled>
-                Connexion…
+                Connecting…
               </button>
             )}
             {!connected && (
-              <p className={styles.hint}>Connectez votre wallet Solana pour continuer.</p>
+              <p className={styles.hint}>Connect your Solana wallet to continue.</p>
             )}
           </div>
 
@@ -123,10 +123,10 @@ export default function VoicePage() {
               onClick={handleJoin}
               disabled={!canJoin || joining}
             >
-              {joining ? "Connexion..." : "Rejoindre le salon"}
+              {joining ? "Connecting..." : "Join Room"}
             </button>
             <p className={styles.hint}>
-              Une signature vous sera demandée pour vérifier la possession du NFT.
+              A signature will be requested to verify NFT ownership.
             </p>
             {error && <p className={styles.error}>{error}</p>}
           </div>

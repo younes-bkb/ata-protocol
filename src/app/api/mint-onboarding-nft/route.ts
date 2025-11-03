@@ -175,7 +175,7 @@ export async function POST(request: NextRequest) {
         success: false,
         reason: "missing_env",
         message:
-          "Les variables d'environnement NFT_WELCOME_METADATA_URI et NFT_WELCOME_COLLECTION_MINT sont requises.",
+          "The NFT_WELCOME_METADATA_URI and NFT_WELCOME_COLLECTION_MINT environment variables are required.",
       },
       { status: 500 },
     );
@@ -189,7 +189,7 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         reason: "invalid_json",
-        message: "Corps de requête JSON invalide.",
+        message: "Invalid JSON request body.",
       },
       { status: 400 },
     );
@@ -203,7 +203,7 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         reason: "missing_wallet",
-        message: "Adresse de wallet manquante.",
+        message: "Missing wallet address.",
       },
       { status: 400 },
     );
@@ -215,7 +215,7 @@ export async function POST(request: NextRequest) {
         success: false,
         reason: "missing_signature",
         message:
-          "La signature de la transaction de reclaim est requise pour valider l'éligibilité.",
+          "The reclaim transaction signature is required to validate eligibility.",
       },
       { status: 400 },
     );
@@ -229,7 +229,7 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         reason: "invalid_wallet",
-        message: "Adresse de wallet invalide.",
+        message: "Invalid wallet address.",
       },
       { status: 400 },
     );
@@ -244,7 +244,7 @@ export async function POST(request: NextRequest) {
         success: false,
         reason: "supabase_not_configured",
         message:
-          "La base Supabase n'est pas configurée côté serveur. Renseignez SUPABASE_URL et SUPABASE_SERVICE_ROLE_KEY.",
+          "The Supabase database is not configured on the server side. Please provide SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.",
       },
       { status: 500 },
     );
@@ -257,8 +257,8 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           reason: "invalid_reclaim_signature",
-          message:
-            "La signature fournie ne correspond pas au wallet indiqué ou n'est pas confirmée.",
+        message:
+          "The provided signature does not match the indicated wallet or is not confirmed.",
         },
         { status: 400 },
       );
@@ -270,7 +270,7 @@ export async function POST(request: NextRequest) {
         success: false,
         reason: "reclaim_verification_failed",
         message:
-          "Impossible de vérifier la signature de reclaim. Réessayez plus tard.",
+          "Could not verify the reclaim signature. Please try again later.",
       },
       { status: 502 },
     );
@@ -295,7 +295,7 @@ export async function POST(request: NextRequest) {
           success: true,
           status: "already_minted",
           message:
-            "Ce wallet a déjà reçu le NFT Welcome Family. Merci pour votre fidélité !",
+            "This wallet has already received the Welcome Family NFT. Thank you for your loyalty!",
           mintAddress: duplicateCheck.latest?.nft_mint_address ?? null,
         },
         { status: 200 },
@@ -303,6 +303,9 @@ export async function POST(request: NextRequest) {
     }
 
     pendingRecordId = duplicateCheck.recordId;
+
+    const balance = await connection.getBalance(adminKeypair.publicKey);
+    console.log(`Admin wallet balance: ${balance} lamports`);
 
     const mintKeypair = Keypair.generate();
 
@@ -336,7 +339,7 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         status: "minted",
-        message: "NFT Welcome Family attribué avec succès. Bienvenue !",
+        message: "Welcome Family NFT successfully awarded. Welcome!",
         mintAddress: mintAddress.toBase58(),
         signature,
       },
@@ -358,7 +361,7 @@ export async function POST(request: NextRequest) {
         message:
           error instanceof Error
             ? error.message
-            : "Impossible de minter le NFT. Réessayez plus tard.",
+            : "Could not mint the NFT. Please try again later.",
       },
       { status: 500 },
     );

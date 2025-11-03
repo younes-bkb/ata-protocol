@@ -18,6 +18,7 @@ import { BackgroundRippleEffect } from "@/components/ui/background-ripple-effect
 import { GoogleGeminiEffect } from "@/components/aceternity/google-gemini-effect";
 import { LampEffect } from "@/components/aceternity/lamp-effect";
 import { LensEffect } from "@/components/aceternity/lens-effect";
+import { SocialDock } from "@/components/social-dock";
 
 type RequestState = "idle" | "loading" | "error" | "success";
 
@@ -52,93 +53,98 @@ type WelcomeRewardState =
   | { status: "error"; message: string };
 
 const navItems = [
-  { label: "Vision", href: "#vision" },
+  { label: "Narration", href: "#narration" },
   { label: "Tokenomics", href: "#tokenomics" },
   { label: "Roadmap", href: "#roadmap" },
-  { label: "Consultation", href: "#consult" },
-  { label: "Salon vocal", href: "/voice" },
+  { label: "Consult", href: "#consult" },
+  { label: "Voice Chain", href: "/voice" },
 ];
 
 const featureCards = [
   {
-    title: "Liquidité instantanée",
+    title: "White Pepper",
     description:
-      "Des pools ATA propulsés par Solana pour exécuter vos transactions en moins de 400 ms.",
+      "A punchy creative sprint that seasons every release with bold storytelling cues.",
   },
   {
-    title: "Sécurité composable",
+    title: "Narrative",
     description:
-      "Des ATA auditables, compatibles avec toutes les dApps Solana et des garde-fous programmables.",
+      "A cohesive lore bible that keeps the ATA universe aligned across product launches.",
   },
   {
-    title: "Gouvernance on-chain",
+    title: "NFT",
     description:
-      "Chaque détenteur de $ATA influence les upgrades du protocole via des votes transparents.",
+      "Collectible passes that unlock gated treasury experiments and early feature drops.",
+  },
+  {
+    title: "Voice Chain",
+    description:
+      "Live war rooms where builders and governors sync strategy in real time.",
   },
 ];
 
 const heroMetrics = [
-  { label: "TPS cible", value: "65k+" },
-  { label: "TVL objectif", value: "$1.2B" },
-  { label: "Builders actifs", value: "350k+" },
+  { label: "Target TPS", value: "65k+" },
+  { label: "Target TVL", value: "$1.2B" },
+  { label: "Active Builders", value: "350k+" },
 ];
 
 const tokenomics = [
   {
-    label: "Total supply",
-    value: "1 000 000 000 $ATA",
-    helper: "Emission fixe, aucun mint supplémentaire prévu.",
+    label: "Total Supply",
+    value: "1,000,000,000 $ATA",
+    helper: "Fixed supply, no additional minting planned.",
   },
   {
-    label: "Circulating en TGE",
+    label: "Circulating at TGE",
     value: "18%",
-    helper: "Déblocage progressif sur 36 mois.",
+    helper: "Progressive unlocking over 36 months.",
   },
   {
-    label: "Trésor Ecosystème",
+    label: "Ecosystem Treasury",
     value: "24%",
-    helper: "Programmes de grants & incentives pour les builders.",
+    helper: "Grant and incentive programs for builders.",
   },
   {
-    label: "Liquidité initiale",
+    label: "Initial Liquidity",
     value: "25%",
-    helper: "Pools SOL / USDC / $ATA dès le lancement.",
+    helper: "SOL / USDC / $ATA pools from launch.",
   },
 ];
 
 const supplyBreakdown = [
-  { label: "Communauté & airdrops", value: "20%" },
-  { label: "Équipe & advisors", value: "12%" },
-  { label: "Validateurs partenaires", value: "9%" },
+  { label: "Community & Airdrops", value: "20%" },
+  { label: "Team & Advisors", value: "12%" },
+  { label: "Partner Validators", value: "9%" },
   { label: "R&D Foundation", value: "10%" },
-  { label: "Liquidité stratégique", value: "24%" },
-  { label: "Réserves DAO", value: "5%" },
+  { label: "Strategic Liquidity", value: "24%" },
+  { label: "DAO Reserves", value: "5%" },
 ];
 
 const roadmap = [
   {
     quarter: "Q1 2025",
-    title: "Launch réseau principal",
+    title: "Mainnet Launch",
     description:
-      "Déploiement des smart-contracts ATA et ouverture des premiers pools de liquidité.",
+      "Deployment of ATA smart contracts and opening of the first liquidity pools.",
   },
   {
     quarter: "Q2 2025",
-    title: "Bridge multi-chaînes",
+    title: "Multi-chain Bridge",
     description:
-      "Connexion avec Ethereum, Base et BSC pour rendre les ATA interopérables.",
+      "Connection with Ethereum, Base and BSC to make ATAs interoperable.",
   },
   {
     quarter: "Q3 2025",
     title: "Governance DAO",
     description:
-      "Activation du module de vote on-chain pour les décisions protocolaires.",
+      "Activation of the on-chain voting module for protocol decisions.",
   },
   {
     quarter: "Q4 2025",
     title: "ATA Reclaim Suite",
     description:
-      "Lancement de l'outil reclaim one-click avec automatisation des fermetures ATA.",
+      "Launch of the one-click reclaim tool with automated ATA closures.",
   },
 ];
 
@@ -196,8 +202,8 @@ export default function Home() {
     status !== "loading" &&
     (isWalletMode ? isWalletReady : trimmedManualAddress.length > 0);
   const idleMessage = isWalletMode
-    ? "Connectez votre wallet pour découvrir le SOL récupérable."
-    : "Saisissez une adresse Solana et lancez l'analyse.";
+    ? "Connect your wallet to discover the reclaimable SOL."
+    : "Enter a Solana address and start the analysis.";
   const viewStatus: RequestState =
     isWalletMode && !isWalletReady ? "idle" : status;
   const viewErrorMessage =
@@ -216,7 +222,7 @@ export default function Home() {
     0,
   );
   const reclaimButtonLabel = reclaiming
-    ? "Reclaim en cours…"
+    ? "Reclaiming..."
     : `Reclaim ${emptyAtasCount} ATA${emptyAtasCount > 1 ? "s" : ""}`;
 
   useEffect(() => {
@@ -231,9 +237,8 @@ export default function Home() {
     async (address: string) => {
       const normalizedAddress = address.trim();
       if (!normalizedAddress) {
-        setStatus("error");
         setErrorMessage(
-          "Renseignez une adresse de wallet Solana valide.",
+          "Please enter a valid Solana wallet address.",
         );
         return;
       }
@@ -260,7 +265,7 @@ export default function Home() {
           setStatus("error");
           setErrorMessage(
             payload?.message ??
-              "Une erreur est survenue lors de la récupération des données.",
+              "An error occurred while fetching data.",
           );
           return;
         }
@@ -279,7 +284,7 @@ export default function Home() {
         console.error(error);
         setStatus("error");
         setErrorMessage(
-          "Impossible de contacter l'API. Vérifiez votre connexion réseau ou le RPC.",
+          "Could not contact the API. Check your network connection or the RPC.",
         );
       }
     },
@@ -326,7 +331,7 @@ export default function Home() {
         if (!isWalletReady || !walletBase58) {
           setStatus("error");
           setErrorMessage(
-            "Connectez votre wallet Solana pour lancer l'analyse.",
+            "Connect your Solana wallet to start the analysis.",
           );
           return;
         }
@@ -337,7 +342,7 @@ export default function Home() {
       if (!trimmedManualAddress) {
         setStatus("error");
         setErrorMessage(
-          "Renseignez une adresse de wallet Solana valide.",
+          "Please enter a valid Solana wallet address.",
         );
         return;
       }
@@ -360,19 +365,19 @@ export default function Home() {
     }
 
     if (!walletBase58 || !publicKey) {
-      setReclaimError("Connectez votre wallet Solana pour lancer le reclaim.");
+      setReclaimError("Connect your Solana wallet to start the reclaim.");
       return;
     }
 
     if (!result || result.walletAddress !== walletBase58) {
       setReclaimError(
-        "Les données affichées ne correspondent pas à votre wallet connecté.",
+        "The displayed data does not match your connected wallet.",
       );
       return;
     }
 
     if (!result.accounts.length) {
-      setReclaimError("Aucun ATA vide à fermer.");
+      setReclaimError("No empty ATAs to close.");
       return;
     }
 
@@ -408,8 +413,8 @@ export default function Home() {
 
       const successMessage =
         collectedSignatures.length > 1
-          ? `${collectedSignatures.length} transactions envoyées.`
-          : "Transaction envoyée.";
+          ? `${collectedSignatures.length} transactions sent.`
+          : "Transaction sent.";
 
       setReclaimSuccess(successMessage);
       setReclaimSignatures(collectedSignatures);
@@ -420,7 +425,7 @@ export default function Home() {
         setRewardState({
           status: "error",
           message:
-            "Signature de reclaim indisponible, mint du NFT de bienvenue annulé.",
+            "Reclaim signature unavailable, welcome NFT minting canceled.",
         });
         return;
       }
@@ -456,7 +461,7 @@ export default function Home() {
             setRewardState({
               status: "error",
               message:
-                "Mint effectué mais informations manquantes. Vérifiez Supabase / explorer.",
+                "Mint completed but information missing. Check Supabase / explorer.",
             });
           }
         } else {
@@ -464,7 +469,7 @@ export default function Home() {
             status: "error",
             message:
               onboardingPayload?.message ??
-              "Impossible de minter le NFT de bienvenue.",
+              "Could not mint the welcome NFT.",
           });
         }
       } catch (mintError) {
@@ -472,18 +477,18 @@ export default function Home() {
         setRewardState({
           status: "error",
           message:
-            "Mint du NFT de bienvenue inaccessible pour le moment. Réessayez plus tard.",
+            "Could not access the welcome NFT mint at the moment. Try again later.",
         });
       }
     } catch (error) {
       console.error(error);
       setReclaimError(
-        "Impossible de finaliser le reclaim. Réessayez dans quelques instants.",
+        "Could not finalize the reclaim. Try again in a few moments.",
       );
       setRewardState({
         status: "error",
         message:
-          "Le reclaim n'a pas abouti, le NFT de bienvenue n'a pas pu être attribué.",
+          "The reclaim did not complete, the welcome NFT could not be awarded.",
       });
       await fetchAtaBalance(walletBase58);
     } finally {
@@ -507,16 +512,17 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#030416] text-slate-100">
+    <div className="relative min-h-screen overflow-hidden text-slate-100">
+      <SocialDock />
       <BackgroundRippleEffect
-        className="absolute inset-0 opacity-50"
+        className="absolute inset-0 opacity-0"
         rows={10}
         cols={30}
         cellSize={54}
         autoPlay
         interactive
       />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(99,102,241,0.22),transparent_55%),radial-gradient(circle_at_80%_10%,rgba(14,197,166,0.16),transparent_65%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-0 bg-[radial-gradient(circle_at_20%_0%,rgba(99,102,241,0.12),transparent_55%),radial-gradient(circle_at_80%_10%,rgba(14,197,166,0.09),transparent_65%)]" />
 
       <header className="relative z-20 mx-auto mt-8 flex w-full max-w-6xl items-center justify-between gap-6 rounded-2xl border border-white/10 bg-white/5 px-6 py-4 backdrop-blur-sm">
         <div className="flex items-center gap-4">
@@ -542,7 +548,7 @@ export default function Home() {
           className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-emerald-400 via-indigo-500 to-purple-500 px-5 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-slate-900 shadow-lg shadow-indigo-500/40 transition hover:-translate-y-0.5 hover:shadow-indigo-400/60"
           href="#consult"
         >
-          Consulter un wallet
+          Consult a wallet
         </a>
       </header>
 
@@ -554,41 +560,25 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          <LampEffect className="pointer-events-none absolute inset-0 opacity-60" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(124,156,255,0.28),transparent_65%),radial-gradient(circle_at_80%_20%,rgba(18,199,166,0.18),transparent_55%)]" />
+          <LampEffect className="pointer-events-none absolute inset-0 opacity-0" />
+          <div className="pointer-events-none absolute inset-0" />
 
           <div className="relative z-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_420px]">
             <div className="flex flex-col gap-6">
-              <span className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.32em] text-slate-300/70">
-                Protocole ATA • Liquidité temps réel
-              </span>
-              <h1 className="text-4xl font-semibold leading-tight text-slate-50 md:text-5xl lg:text-6xl">
-                Réinventer les Associated Token Accounts pour un Solana sans frictions.
+
+              <h1 className="text-6xl font-bold leading-tight text-slate-50 md:text-7xl lg:text-8xl bg-gradient-to-r from-emerald-400 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
+                Associated<br />Token<br />Account
               </h1>
-              <p className="max-w-xl text-base leading-relaxed text-slate-300/80">
-                $ATA automatise la récupération du SOL dormant, orchestre vos trésoreries DAO et
-                intègre une gouvernance programmable sur chaque fermeture. Une pile pensée pour les
-                builders qui veulent scaler sans compromis.
-              </p>
+
               <div className="flex flex-wrap gap-4">
-                <a
-                  href="#tokenomics"
-                  className="inline-flex items-center rounded-full bg-gradient-to-r from-emerald-400 via-indigo-500 to-purple-500 px-6 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/40 transition hover:-translate-y-1 hover:shadow-indigo-400/60"
-                >
-                  Explorer la tokenomics
-                </a>
-                <a
-                  href="#consult"
-                  className="inline-flex items-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-1 hover:border-white/40"
-                >
-                  Scanner un wallet
-                </a>
+
+
               </div>
               <div className="grid gap-4 sm:grid-cols-3">
                 {heroMetrics.map((metric) => (
                   <div
                     key={metric.label}
-                    className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 shadow-[0_18px_38px_rgba(8,10,30,0.45)] transition hover:-translate-y-1 hover:border-white/20"
+                    className="rounded-2xl border border-white/10 bg-[rgba(255,255,255,0.08)] px-5 py-4 shadow-[0_18px_38px_rgba(8,10,30,0.45)] transition hover:-translate-y-1 hover:border-white/20"
                   >
                     <span className="text-2xl font-semibold text-white">{metric.value}</span>
                     <p className="mt-1 text-[11px] uppercase tracking-[0.3em] text-slate-300/60">
@@ -601,11 +591,11 @@ export default function Home() {
 
             <div className="flex items-stretch justify-center">
               <div className="relative flex w-full flex-col items-center gap-6 overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/60 p-8 shadow-[0_28px_80px_rgba(4,6,24,0.55)]">
-                <GoogleGeminiEffect className="pointer-events-none absolute inset-0 opacity-60"><div/></GoogleGeminiEffect>
+                <GoogleGeminiEffect className="pointer-events-none absolute inset-0 opacity-0"><div/></GoogleGeminiEffect>
                 <div className="relative z-10 rounded-3xl bg-slate-950/80 p-6 ring-1 ring-white/10">
                   <Image
                     src="/mascotteATA.png"
-                    alt="Mascotte officielle $ATA"
+                    alt="Official $ATA Mascot"
                     width={240}
                     height={240}
                     priority
@@ -613,11 +603,10 @@ export default function Home() {
                 </div>
                 <div className="relative z-10 space-y-2 text-center text-sm text-slate-300/80">
                   <p className="font-medium tracking-[0.28em] text-slate-200/70">
-                    Console Reclaim
+                    Reclaim Console
                   </p>
                   <p>
-                    Visualisation en temps réel des ATAs fermés, du SOL libéré et des règles DAO
-                    appliquées.
+                    Real-time visualization of closed ATAs, released SOL and applied DAO rules.
                   </p>
                 </div>
               </div>
@@ -626,19 +615,17 @@ export default function Home() {
         </motion.section>
 
         <motion.section
-          id="vision"
+          id="narration"
           className="space-y-10 rounded-[30px] border border-white/10 bg-white/10 p-10 shadow-[0_30px_90px_rgba(4,6,24,0.45)]"
           {...fadeUp}
         >
           <div className="space-y-4">
-            <span className="text-xs uppercase tracking-[0.32em] text-slate-300/70">Vision</span>
+            <span className="text-xs uppercase tracking-[0.32em] text-slate-300/70">Narration</span>
             <h2 className="text-3xl font-semibold text-white">
-              Des primitives modulaires qui automatisent toute la trésorerie on-chain.
+              Modular primitives that automate the entire on-chain treasury.
             </h2>
             <p className="max-w-3xl text-base leading-relaxed text-slate-300/80">
-              Une stack orientée builders : liquidité ultra-rapide, sécurité programmable,
-              gouvernance transparente. Chaque bloc peut s’intégrer à vos dApps existantes en
-              quelques lignes.
+              A builder-oriented stack: ultra-fast liquidity, programmable security, transparent governance. Each block can be integrated into your existing dApps in a few lines.
             </p>
           </div>
           <LensEffect className="overflow-hidden rounded-[26px] border border-white/10 bg-white/5 p-8">
@@ -668,11 +655,10 @@ export default function Home() {
           <div className="space-y-4">
             <span className="text-xs uppercase tracking-[0.32em] text-slate-300/70">Tokenomics</span>
             <h2 className="text-3xl font-semibold text-white">
-              Un modèle économique pensé pour aligner builders, validateurs et trésor DAO.
+              An economic model designed to align builders, validators and DAO treasury.
             </h2>
             <p className="max-w-3xl text-base leading-relaxed text-slate-300/80">
-              $ATA finance la croissance du réseau, liquéfie les trésoreries et récompense les
-              validateurs partenaires. Chaque allocation a un rôle stratégique long terme.
+              $ATA finances network growth, liquefies treasuries and rewards partner validators. Each allocation has a long-term strategic role.
             </p>
           </div>
 
@@ -697,7 +683,7 @@ export default function Home() {
 
           <div className="rounded-2xl border border-white/10 bg-slate-950/60 p-6">
             <h3 className="text-sm uppercase tracking-[0.28em] text-slate-300/70">
-              Répartition projetée
+              Projected Distribution
             </h3>
             <ul className="mt-5 grid gap-3 sm:grid-cols-2">
               {supplyBreakdown.map((item) => (
@@ -721,11 +707,10 @@ export default function Home() {
           <div className="space-y-4">
             <span className="text-xs uppercase tracking-[0.32em] text-slate-300/70">Roadmap</span>
             <h2 className="text-3xl font-semibold text-white">
-              De la récupération basique aux agents ATA auto-gérés.
+              From basic recovery to self-managed ATA agents.
             </h2>
             <p className="max-w-3xl text-base leading-relaxed text-slate-300/80">
-              Une trajectoire ambitieuse pour rendre les ATAs intelligents, interopérables et
-              gouvernés par la communauté.
+              An ambitious trajectory to make ATAs intelligent, interoperable and community-governed.
             </p>
           </div>
 
@@ -754,15 +739,13 @@ export default function Home() {
         >
           <div className="space-y-4">
             <span className="text-xs uppercase tracking-[0.32em] text-slate-300/70">
-              Consultation ATA
+              ATA Consultation
             </span>
             <h2 className="text-3xl font-semibold text-white">
-              Visualisez le SOL immobilisé, déclenchez la récupération en quelques secondes.
+              Visualize the immobilized SOL, trigger the recovery in a few seconds.
             </h2>
             <p className="max-w-3xl text-base leading-relaxed text-slate-300/80">
-              Analysez n’importe quelle adresse Solana, obtenez le montant récupérable et laissez le
-              protocole fermer les ATAs pour vous. Toutes les requêtes passent par l’endpoint RPC
-              configuré côté serveur.
+              Analyze any Solana address, get the recoverable amount and let the protocol close the ATAs for you. All requests go through the RPC endpoint configured on the server side.
             </p>
           </div>
 
@@ -778,7 +761,7 @@ export default function Home() {
               <div
                 className="inline-flex self-start rounded-full border border-white/10 bg-white/5 p-1 text-[11px] uppercase tracking-[0.22em] text-slate-300/70"
                 role="radiogroup"
-                aria-label="Mode de consultation"
+                aria-label="Consultation Mode"
               >
                 <button
                   type="button"
@@ -795,7 +778,7 @@ export default function Home() {
                     }
                   }}
                 >
-                  Connexion wallet
+                  Wallet Connection
                 </button>
                 <button
                   type="button"
@@ -812,14 +795,14 @@ export default function Home() {
                     }
                   }}
                 >
-                  Adresse manuelle
+                  Manual Address
                 </button>
               </div>
 
               {isWalletMode ? (
                 <div className="flex flex-col gap-3 text-sm text-slate-300/80">
                   <span className="text-[11px] uppercase tracking-[0.28em] text-slate-300/60">
-                    Wallet Solana
+                    Solana Wallet
                   </span>
                   <div>
                     {hasMounted ? (
@@ -830,28 +813,28 @@ export default function Home() {
                         className="w-full cursor-wait rounded-xl border border-dashed border-white/20 bg-white/5 px-4 py-3 text-sm text-slate-300/60"
                         disabled
                       >
-                        Connexion…
+                        Connecting…
                       </button>
                     )}
                   </div>
                   {isWalletReady && publicKey ? (
                     <p className="text-xs text-slate-200/80">
-                      Connecté&nbsp;: <span className="font-mono text-white">{shortAddress}</span>
+                      Connected:&nbsp; <span className="font-mono text-white">{shortAddress}</span>
                     </p>
                   ) : (
                     <p className="text-xs text-slate-300/70">
-                      Connectez votre wallet pour lancer l’analyse automatique.
+                      Connect your wallet to start the automatic analysis.
                     </p>
                   )}
                 </div>
               ) : (
                 <label className="flex flex-col gap-3 text-sm text-slate-300/80">
                   <span className="text-[11px] uppercase tracking-[0.28em] text-slate-300/60">
-                    Adresse du wallet Solana
+                    Solana Wallet Address
                   </span>
                   <input
                     type="text"
-                    placeholder="Ex : 9x6u… (base58)"
+                    placeholder="Ex: 9x6u… (base58)"
                     value={manualAddress}
                     onChange={(event) => setManualAddress(event.target.value)}
                     autoComplete="off"
@@ -859,7 +842,7 @@ export default function Home() {
                     className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-mono text-sm text-white outline-none transition focus:border-white/40 focus:ring-4 focus:ring-indigo-500/20"
                   />
                   <p className="text-xs text-slate-300/70">
-                    Collez une adresse base58 pour lancer l’analyse sans connecter de wallet.
+                    Paste a base58 address to start the analysis without connecting a wallet.
                   </p>
                 </label>
               )}
@@ -870,7 +853,7 @@ export default function Home() {
                   disabled={!canFetch}
                   className="inline-flex items-center justify-center rounded-xl border border-white/10 bg-gradient-to-r from-emerald-400 via-indigo-500 to-purple-500 px-4 py-3 text-sm font-semibold text-slate-900 shadow-lg shadow-indigo-500/40 transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {viewStatus === "loading" ? "Analyse en cours…" : "Analyser"}
+                  {viewStatus === "loading" ? "Analyzing..." : "Analyze"}
                 </button>
               )}
             </motion.form>
@@ -893,7 +876,7 @@ export default function Home() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
-                  Analyse du wallet…
+                  Analyzing wallet…
                 </motion.p>
               )}
 
@@ -917,7 +900,7 @@ export default function Home() {
                   transition={{ duration: 0.6, ease: "easeOut" }}
                 >
                   <span className="text-xs uppercase tracking-[0.28em] text-slate-300/60">
-                    SOL récupérable
+                    Reclaimable SOL
                   </span>
                   <strong className="text-4xl font-semibold text-white">
                     {viewResult.reclaimableSOLFormatted} ◎
@@ -925,7 +908,7 @@ export default function Home() {
                   <div className="grid gap-3 sm:grid-cols-2">
                     <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm">
                       <p className="text-[11px] uppercase tracking-[0.26em] text-slate-300/60">
-                        ATAs vides
+                        Empty ATAs
                       </p>
                       <span className="mt-1 block text-xl text-white">{emptyAtasCount}</span>
                     </div>
@@ -951,10 +934,10 @@ export default function Home() {
                   ) : (
                     <p className="text-sm text-slate-300/70">
                       {emptyAtasCount === 0
-                        ? "Aucun ATA vide à fermer."
+                        ? "No empty ATAs to close."
                         : isWalletMode
-                          ? "Connectez le wallet propriétaire pour fermer ces ATAs."
-                          : "Passez en mode wallet pour fermer vos ATAs vides."}
+                          ? "Connect the owner wallet to close these ATAs."
+                          : "Switch to wallet mode to close your empty ATAs."}
                     </p>
                   )}
 
@@ -986,18 +969,17 @@ export default function Home() {
                   <div className="rounded-xl border border-white/10 bg-white/5 p-4 text-xs text-slate-300/80">
                       {rewardState.status === "idle" && (
                         <p>
-                          Les pionniers reçoivent un NFT «&nbsp;Welcome Family&nbsp;» après leur
-                          premier reclaim.
+                          Pioneers receive a “Welcome Family” NFT after their first reclaim.
                         </p>
                       )}
                       {rewardState.status === "pending" && (
                         <p className="text-indigo-200">
-                          Distribution du NFT de bienvenue en cours…
+                          Welcome Family NFT distribution in progress...
                         </p>
                       )}
                       {rewardState.status === "minted" && (
                         <div className="space-y-2 text-emerald-100">
-                          <p>Félicitations, vous rejoignez la Welcome Family&nbsp;!</p>
+                          <p>Congratulations, you are joining the Welcome Family!</p>
                           <div className="flex flex-wrap gap-3">
                             {rewardState.mintAddress && (
                               <a
@@ -1006,7 +988,7 @@ export default function Home() {
                                 rel="noreferrer"
                                 className="rounded-full border border-emerald-400/40 px-3 py-1"
                               >
-                                Voir le NFT
+                                View NFT
                               </a>
                             )}
                             {rewardState.signature && (
@@ -1016,14 +998,14 @@ export default function Home() {
                                 rel="noreferrer"
                                 className="rounded-full border border-emerald-400/40 px-3 py-1"
                               >
-                                Voir la transaction
+                                View transaction
                               </a>
                             )}
                           </div>
                         </div>
                       )}
                       {rewardState.status === "already" && (
-                        <p>Votre NFT Welcome Family est déjà dans votre wallet.</p>
+                        <p>Your Welcome Family NFT is already in your wallet.</p>
                       )}
                       {rewardState.status === "error" && (
                         <p className="text-rose-200">{rewardState.message}</p>
@@ -1051,7 +1033,7 @@ export default function Home() {
                         ))}
                         {remainingAccounts > 0 && (
                           <p className="text-center text-[11px] text-slate-300/60">
-                            + {remainingAccounts} autre
+                            + {remainingAccounts} other
                             {remainingAccounts > 1 ? "s" : ""} ATA
                           </p>
                         )}
@@ -1059,8 +1041,8 @@ export default function Home() {
                     ) : (
                       <p className="mt-4 text-center text-sm text-slate-300/70">
                         {emptyAtasCount === 0
-                          ? "Aucun ATA vide détecté."
-                          : "Liste d'ATAs indisponible."}
+                          ? "No empty ATAs detected."
+                          : "ATA list unavailable."}
                       </p>
                     )}
                   </div>
@@ -1080,13 +1062,13 @@ export default function Home() {
         </div>
         <div className="flex items-center gap-4">
           <a className="transition hover:text-white" href="#hero">
-            Haut de page
+            Top of page
           </a>
           <a className="transition hover:text-white" href="#tokenomics">
             Tokenomics
           </a>
           <a className="transition hover:text-white" href="#consult">
-            Consulter un wallet
+            Consult a wallet
           </a>
         </div>
       </footer>

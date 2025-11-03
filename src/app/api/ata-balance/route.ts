@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         reason: "invalid_json",
-        message: "Corps de requête JSON invalide.",
+        message: "Invalid JSON request body.",
       },
       { status: 400 },
     );
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
         success: false,
         reason: "missing_wallet",
         message:
-          "Adresse de wallet manquante. Fournissez une adresse base58 valide.",
+          "Missing wallet address. Please provide a valid base58 address.",
       },
       { status: 400 },
     );
@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         reason: "invalid_wallet",
-        message: "Adresse de wallet invalide. Vérifiez le format base58.",
+        message: "Invalid wallet address. Check the base58 format.",
       },
       { status: 400 },
     );
@@ -163,7 +163,7 @@ export async function POST(request: NextRequest) {
         success: false,
         reason: "rpc_error",
         message:
-          "Impossible de récupérer les informations auprès du RPC Solana.",
+          "Could not retrieve information from the Solana RPC.",
       },
       { status: 502 },
     );

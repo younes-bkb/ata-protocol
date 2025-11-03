@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "$ATA Protocol — Reclaim the Rent",
   description:
-    "Découvrez la vision de la crypto $ATA : tokenomics, roadmap et outil pour estimer le SOL récupérable sur vos Associated Token Accounts.",
+    "Discover the vision of the $ATA crypto: tokenomics, roadmap and tool to estimate the reclaimable SOL on your Associated Token Accounts.",
 };
 
 export default function RootLayout({

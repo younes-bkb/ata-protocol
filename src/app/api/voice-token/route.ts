@@ -109,7 +109,7 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         reason: "livekit_not_configured",
-        message: "Configuration LiveKit manquante côté serveur.",
+        message: "LiveKit configuration missing on server side.",
       },
       { status: 500 },
     );
@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         reason: "invalid_json",
-        message: "Corps de requête JSON invalide.",
+        message: "Invalid JSON request body.",
       },
       { status: 400 },
     );
@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         reason: "missing_parameters",
-        message: "Adresse, signature et message sont requis.",
+        message: "Address, signature and message are required.",
       },
       { status: 400 },
     );
@@ -153,7 +153,7 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         reason: "invalid_wallet",
-        message: "Adresse de wallet invalide.",
+        message: "Invalid wallet address.",
       },
       { status: 400 },
     );
@@ -165,7 +165,7 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         reason: "invalid_message",
-        message: "Message de signature invalide.",
+        message: "Invalid signature message.",
       },
       { status: 400 },
     );
@@ -182,7 +182,7 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           reason: "invalid_signature",
-          message: "Signature invalide.",
+          message: "Invalid signature.",
         },
         { status: 401 },
       );
@@ -193,7 +193,7 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         reason: "signature_error",
-        message: "Impossible de vérifier la signature.",
+        message: "Could not verify signature.",
       },
       { status: 500 },
     );
@@ -205,7 +205,7 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         reason: "missing_nft",
-        message: "NFT Welcome Family requis pour accéder au salon.",
+        message: "Welcome Family NFT required to access the room.",
       },
       { status: 403 },
     );
@@ -242,7 +242,7 @@ export async function POST(request: NextRequest) {
       {
         success: false,
         reason: "livekit_error",
-        message: "Impossible de générer le token d'accès.",
+        message: "Could not generate access token.",
       },
       { status: 500 },
     );
